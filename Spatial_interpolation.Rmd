@@ -20,6 +20,11 @@ data_2 <- data_2[!is.na(data_2$BEDROCK_ELEV_M),]
 ```
 
 ```{r}
+same_points = paste(data_2$LONGITUDE, data_2$LATITUDE)
+```
+
+
+```{r}
 res <- interp(x=data_2$LONGITUDE, y=data_2$LONGITUDE, z=data_2$BEDROCK_ELEV_M, duplicate = 'strip')
 ```
 
