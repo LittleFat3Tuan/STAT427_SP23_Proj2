@@ -31,7 +31,19 @@ res <- interp(x=data_2$LONGITUDE, y=data_2$LONGITUDE, z=data_2$BEDROCK_ELEV_M, d
 ```{r}
 data_2[same_points=="-87.663581 38.727998",]
 data_2[same_points==same_points[duplicated(same_points)][1],]
+
+sum(is.element(same_points, unique(same_points[duplicated(same_points)])))
 ```
+
+```{r}
+red_data <- data_2 %>% group_by(LATITUDE, LONGITUDE) %>% summarise(MED = median(BEDROCK_ELEV_M))
+```
+
+```{r}
+res <- interp(x=red_data$LONGITUDE, y=red_data$LONGITUDE, z=red_data$MED, duplicate = 'strip')
+```
+
+
 
 
 
