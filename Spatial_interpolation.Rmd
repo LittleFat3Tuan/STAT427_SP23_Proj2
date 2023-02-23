@@ -1,0 +1,33 @@
+---
+title: "Spatial Interpolation"
+author: "Gan Yao"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+# Load data and preprocesssing
+
+```{r}
+library(tidyverse)
+library(interp)
+```
+
+```{r}
+data <- read.csv('../Data/Downhole_BedrockPicks_2023-01-06.csv')
+data_2 <- data[data$BR_CLASS_TYPE==2, ]
+data_2 <- data_2[!is.na(data_2$LONGITUDE),]
+data_2 <- data_2[!is.na(data_2$BEDROCK_ELEV_M),]
+```
+
+```{r}
+res <- interp(x=data_2$LONGITUDE, y=data_2$LONGITUDE, z=data_2$BEDROCK_ELEV_M, duplicate = 'strip')
+```
+
+```{r}
+data_2[same_points=="-87.663581 38.727998",]
+data_2[same_points==same_points[duplicated(same_points)][1],]
+```
+
+
+
+
