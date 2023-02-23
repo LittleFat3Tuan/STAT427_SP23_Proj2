@@ -13,7 +13,7 @@ library(interp)
 ```
 
 ```{r}
-data <- read.csv('../Data/Downhole_BedrockPicks_2023-01-06.csv')
+data <- read.csv('Downhole_BedrockPicks_2023-01-06.csv')
 data_2 <- data[data$BR_CLASS_TYPE==2, ]
 data_2 <- data_2[!is.na(data_2$LONGITUDE),]
 data_2 <- data_2[!is.na(data_2$BEDROCK_ELEV_M),]
@@ -36,12 +36,18 @@ sum(is.element(same_points, unique(same_points[duplicated(same_points)])))
 ```
 
 ```{r}
-red_data <- data_2 %>% group_by(LATITUDE, LONGITUDE) %>% summarise(MED = median(BEDROCK_ELEV_M))
+red_data <- data_2 %>% group_by(LATITUDE, LONGITUDE) %>% summarise(MED = median(BEDROCK_ELEV_M), .groups = "keep")
 ```
 
 ```{r}
-res <- interp(x=red_data$LONGITUDE, y=red_data$LONGITUDE, z=red_data$MED, duplicate = 'strip')
+res <- interp(x=100000*red_data$LATITUDE, y=100000*red_data$LONGITUDE, z=red_data$MED, duplicate='strip')
 ```
+
+```{r}
+interpp(x=10000*(data_2$LATITUDE-41), y=10000*(data_2$LONGITUDE+89), z=data_2$BEDROCK_ELEV_M, xo = 10000*(data_2$LATITUDE-41),  yo = 10000*(data_2$LONGITUDE+89), duplicate='median')
+```
+
+
 
 
 
